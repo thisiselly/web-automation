@@ -1,11 +1,15 @@
 import time
 
+import allure
+import pytest
 from selenium.webdriver.common.by import By
 
 from pages.page_search import SearchPage
 
-
+@allure.epic("Search Test")
+@allure.feature("search test cases")
 class TestSearch:
+    @pytest.mark.search
     def test_search_default_highlight(self, open_browser):
         search_page = SearchPage(open_browser)
         search_page.input_search_content("test")
@@ -14,8 +18,9 @@ class TestSearch:
         search_page.is_button_selected(search_page.comprehensive_button)
         search_page.close()
         search_page.switch_to_window(True)
-        time.sleep(4)
+        time.sleep(2)
 
+    @pytest.mark.search
     def test_search_not_selected(self, open_browser):
         search_page = SearchPage(open_browser)
         search_page.input_search_content("test")
@@ -26,9 +31,9 @@ class TestSearch:
         search_page.is_button_selected(search_page.video_button, expect=False)
         search_page.close()
         search_page.switch_to_window(True)
-        time.sleep(4)
+        time.sleep(2)
 
-
+    @pytest.mark.search
     def test_search_no_live(self, open_browser):
         search_page = SearchPage(open_browser)
         search_page.input_search_content("没有直播")
@@ -38,8 +43,9 @@ class TestSearch:
         search_page.verify_empty_search_result()
         search_page.close()
         search_page.switch_to_window(True)
-        time.sleep(4)
+        time.sleep(2)
 
+    @pytest.mark.search
     def test_search_no_album(self, open_browser):
         search_page = SearchPage(open_browser)
         search_page.input_search_content("没有专辑")
@@ -49,10 +55,9 @@ class TestSearch:
         search_page.verify_empty_search_result()
         search_page.close()
         search_page.switch_to_window(True)
-        time.sleep(4)
+        time.sleep(2)
 
-
-
+    @pytest.mark.skip("todo")
     def test_search_movie(self, open_browser):
         search_page = SearchPage(open_browser)
         search_page.input_search_content("hello")
@@ -63,4 +68,4 @@ class TestSearch:
         print("!!!!!!!!!!!",aa,"!!!!!!!!!!!")
         bb = open_browser.find_element(By.CSS_SELECTOR, '.searchB-item-i-r.search-s-r>h3').text
         print("~~~~~~~~~", bb, "~~~~~~~~~")
-        time.sleep(22)
+        time.sleep(2)

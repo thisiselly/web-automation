@@ -6,7 +6,7 @@ from utils.assert_util import verification
 
 class HomePage(BasePage):
     # 首页按钮
-    agree_button = (By.CSS_SELECTOR, '.winE-policy-close-b')
+    # agree_button = (By.CSS_SELECTOR, '.winE-policy-close-b')
     vip_button = (By.CSS_SELECTOR, '.header-b-r-item1-img')
     view_history_button = (By.CSS_SELECTOR, '.header-b-r-item2-img')
     creator_button = (By.CSS_SELECTOR, '.header-b-r-item3-img')
