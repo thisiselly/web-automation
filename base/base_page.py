@@ -12,12 +12,15 @@ class BasePage:
     def __init__(self, driver):
         self.driver = driver
 
-    def find_element(self, locator, retry=3, timeout=10):
+    def find_element(self, locator, clickable = False, retry=3, timeout=10):
         attempts = 1
         while attempts <= retry:
             try:
                 logger.info(f"finding element: {locator}")
-                ele = WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator))
+                if not clickable:
+                    ele = WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator))
+                else:
+                    ele = WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
                 return ele
             except (TimeoutException, NoSuchElementException) as e:
                 logger.error(f"element {locator} not found, retrying {attempts} time(s)")
@@ -49,7 +52,7 @@ class BasePage:
     def element_exist(self, locator, retry=3, timeout=10):
         logger.info(f"Check element {locator} exist")
         try:
-            self.find_element(locator, retry, timeout)
+            self.find_element(locator, retry=retry, timeout=timeout)
             logger.info(f"element {locator} exist")
             return True #element found
         except NoSuchElementException:
@@ -61,7 +64,7 @@ class BasePage:
 
     def click(self, locator):
         logger.info(f"click element {locator}")
-        ele = self.find_element(locator)
+        ele = self.find_element(locator, clickable=True)
         ele.click()
 
     def move_to_mouse(self, locator):
