@@ -1,8 +1,0 @@
-WARNING  selenium.webdriver.common.selenium_manager:selenium_manager.py:138 The chromedriver version (133.0.6943.53) detected in PATH at C:\installs\chromedriver-win64\chromedriver-win64\chromedriver.exe might not be compatible with the detected chrome version (134.0.6998.35); currently, chromedriver 134.0.6998.35 is recommended for chrome 134.*, so it is advised to delete the driver in PATH and retry
-INFO     log:base_page.py:50 Check element ('css selector', '.winE-policy-close-b') exist
-INFO     log:base_page.py:19 finding element: ('css selector', '.winE-policy-close-b')
-INFO     log:base_page.py:53 element ('css selector', '.winE-policy-close-b') exist
-INFO     log:conftest.py:28 the agree button is shown, click on it.
-INFO     log:base_page.py:63 click element ('css selector', '.winE-policy-close-b')
-INFO     log:base_page.py:19 finding element: ('css selector', '.winE-policy-close-b')
-INFO     log:base_page.py:75 switch to the home window and close extra windows
