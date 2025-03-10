@@ -1,12 +1,14 @@
+import time
+
 from selenium.webdriver.common.by import By
 
 from base.base_page import BasePage
+from project_config import ProjectConfig
 from utils.assert_util import verification
 
 
 class HomePage(BasePage):
     # 首页按钮
-    # agree_button = (By.CSS_SELECTOR, '.winE-policy-close-b')
     vip_button = (By.CSS_SELECTOR, '.header-b-r-item1-img')
     view_history_button = (By.CSS_SELECTOR, '.header-b-r-item2-img')
     creator_button = (By.CSS_SELECTOR, '.header-b-r-item3-img')
@@ -14,6 +16,7 @@ class HomePage(BasePage):
     profile_button = (By.CSS_SELECTOR, '.header-b-r-item5')
     login_page = (By.CSS_SELECTOR, '.ysplogin-signin')
     close_login_button = (By.CSS_SELECTOR, '.ysplogin-icon-svg')
+    signin_agree_radio_button = (By.CSS_SELECTOR, '.ysplogin-signin-agree-chickable')
 
     # 悬浮窗口
     win_vip = (By.CSS_SELECTOR, '.winG-mask-unLogin-top-title')
@@ -34,15 +37,11 @@ class HomePage(BasePage):
     win_profile = (By.CSS_SELECTOR, '.winA-mask-unLogin-top-title')
     login_button_profile = (By.CSS_SELECTOR, '.winA-mask-unLogin-bottom-img')
 
-    # 当前页面的方法
-    # def select_agree_button(self):
-    #     if self.element_exist(self.agree_button, timeout=2) == False:
-    #         logger.info("the agree button does not shown, skip")
-    #         return
-    #     else:
-    #         logger.info("the agree button does is shown, click on it.")
-    #         self.click(self.agree_button)
-    #
+    # wechat window
+    wechat_button = (By.CSS_SELECTOR, '.ysplogin-signin-extra-buttun.ysplogin-signin-btnwx')
+    wechat_tips = (By.CSS_SELECTOR, '.web_qrcode_tips.js_web_qrcode_tips_normal')
+    wechat_app_name = (By.CSS_SELECTOR, '.web_qrcode_app')
+    wechat_qrcode_img = (By.CSS_SELECTOR, '.js_qrcode_img.web_qrcode_img')
 
     def select_vip_button(self):
         self.click(self.vip_button)
@@ -84,14 +83,22 @@ class HomePage(BasePage):
         actual_shown = self.element_exist(self.login_page)
         verification.assertion(expect_shown, "==", actual_shown)
 
+    def click_signin_agree_button(self):
+        self.click(self.signin_agree_radio_button)
+
+    def click_wechat_button(self):
+        self.click(self.wechat_button)
+
+    def verify_wechat_window_displays(self):
+        self.switch_to_current_window()
+        actual_window_title = self.driver.title
+        verification.assertion("微信登录", "==", actual_window_title)
+
     def switch_to_home_window(self):
-        self.switch_to_window(to_parental_window=True)
+        self.switch_to_window(to_home_window=True)
 
-    def switch_to_history_window(self):
-        self.switch_to_window(to_parental_window=False)
+    def switch_to_current_window(self):
+        self.switch_to_window(to_home_window=False)
 
-    def switch_to_profile_window(self):
-        self.switch_to_window(to_parental_window=False)
 
-    def switch_to_search_window(self):
-        self.switch_to_window(to_parental_window=False)
+

@@ -20,11 +20,6 @@ class TestHomePage:
 
         with allure.step("verify login page is shown"):
             home_page.verify_login_page_show()
-            time.sleep(1)
-
-        with allure.step("close the login page"):
-            home_page.close_login_window()
-            time.sleep(2)
 
     @pytest.mark.homeselect
     def test_select_view_history_button(self, open_browser):
@@ -34,12 +29,10 @@ class TestHomePage:
         with allure.step("select view history button"):
             home_page.select_view_history_button()
 
-        with allure.step("verify history page loaded success"):
-            home_page.switch_to_history_window()
+        with allure.step("verify history page loaded success in new page"):
+            home_page.switch_to_current_window()
             actual_url = open_browser.current_url
             verification.assertion(expect_result=ProjectConfig.history_url, compare_method="==", actual_result=actual_url)
-            home_page.close()
-            home_page.switch_to_home_window()
 
     @pytest.mark.homeselect
     def test_select_creator_button(self, open_browser):
@@ -74,12 +67,10 @@ class TestHomePage:
             home_page.select_profile_button()
 
         with allure.step("verify profile page loaded success"):
-            home_page.switch_to_profile_window()
+            home_page.switch_to_current_window()
             actual_url = open_browser.current_url
             verification.assertion(expect_result=ProjectConfig.vip_url, compare_method="==",
                                    actual_result=actual_url)
-            home_page.close()
-            home_page.switch_to_home_window()
 
     @pytest.mark.homemove
     def test_move_to_vip_button(self, open_browser):
@@ -169,7 +160,7 @@ class TestHomePage:
         with allure.step("click the login button"):
             home_page.click(home_page.login_button_vip)
 
-        with allure.step("Verify login page shown"):
+        with allure.step("verify login page shown"):
             home_page.verify_login_page_show()
 
     @pytest.mark.homeclick
@@ -199,5 +190,4 @@ class TestHomePage:
 
         with allure.step("verify login page shown"):
             home_page.verify_login_page_show()
-
 

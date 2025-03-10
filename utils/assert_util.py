@@ -4,7 +4,7 @@ from utils.logs_util import logger
 
 
 class AssertUtil:
-    def assertion(self, expect_result, compare_method, actual_result):
+    def assertion(self, expect_result, compare_method, actual_result, message = None):
         """
         :param expect_result:
         :param compare_method:
@@ -34,6 +34,8 @@ class AssertUtil:
 
         except AssertionError as e:
             logger.error(f"assertion fail by reason:{e}")
+            if message:
+                logger.error(f"fail message: {message}")
             raise
 
 verification = AssertUtil()

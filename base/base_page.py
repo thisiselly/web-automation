@@ -9,26 +9,34 @@ from utils.logs_util import logger
 
 class BasePage:
 
-    # 初始化
     def __init__(self, driver):
-        # self.driver = xx
         self.driver = driver
-        # self.driver.get(ProjectConfig.home_url)
 
-    def find_element(self, locator, timeout=10):
-        logger.info(f"finding element {locator}")
-        ele = WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
-        return ele
+    def find_element(self, locator, retry=3, timeout=10):
+        attempts = 1
+        while attempts <= retry:
+            try:
+                logger.info(f"finding element: {locator}")
+                ele = WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator))
+                return ele
+            except (TimeoutException, NoSuchElementException) as e:
+                logger.error(f"element {locator} not found, retrying {attempts} time(s)")
+                attempts += 1
 
-    # def find_element(self, locator, timeout=10, expect_found=True):
-    #     if expect_found:
-    #         ele = WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
-    #         return ele
-    #     else:
-    #         try:
-    #             WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
-    #         except NoSuchElementException:
-    #             return None
+        raise TimeoutException(f"element {locator} not found after {retry} attempts.")
+
+    def find_elements(self, locator, retry=3, timeout=10):
+        attempt = 0
+        while attempt < retry:
+            try:
+                logger.info(f"finding elements: {locator}")
+                all_ele = WebDriverWait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator))
+                return all_ele
+            except (TimeoutException, NoSuchElementException) as e:
+                logger.error(f"elements {locator} not found with in {timeout} seconds with error: {e}")
+
+        raise TimeoutException(f"elements {locator} not found after {retry} attempts.")
+
 
     def clear(self, locator):
         ele = self.find_element(locator)
@@ -38,17 +46,17 @@ class BasePage:
         ele = self.find_element(locator)
         ele.send_keys(content)
 
-    def element_exist(self, locator, timeout=10):
+    def element_exist(self, locator, retry=3, timeout=10):
         logger.info(f"Check element {locator} exist")
         try:
-            ele = self.find_element(locator, timeout)
-            logger.info("element exist")
+            self.find_element(locator, retry, timeout)
+            logger.info(f"element {locator} exist")
             return True #element found
         except NoSuchElementException:
-            logger.info("element exist, NoSuchElementException")
+            logger.info(f"element {locator} does not exist, NoSuchElementException")
             return False  #element not found
         except TimeoutException:
-            logger.info("element exist, TimeoutException")
+            logger.info(f"element {locator} does not exist, TimeoutException")
             return False
 
     def click(self, locator):
@@ -61,10 +69,14 @@ class BasePage:
         ele = self.find_element(locator)
         ActionChains(self.driver).move_to_element(ele).perform()
 
-    def switch_to_window(self, to_parental_window=False):
+    def switch_to_window(self, to_home_window=False):
         all_windows = self.driver.window_handles
-        if to_parental_window:
-            logger.info("switch to the parent window")
+        if to_home_window:
+            logger.info("switch to the home window and close extra windows")
+            for window in all_windows:
+                self.driver.switch_to.window(window)
+                if window != all_windows[0]:
+                    self.driver.close()
             self.driver.switch_to.window(all_windows[0])
         else:
             logger.info("switch to the current open window")

@@ -1,0 +1,18 @@
+[32mINFO    [0m log:base_page.py:50 Check element ('css selector', '.winE-policy-close-b') exist
+[32mINFO    [0m log:base_page.py:19 finding element: ('css selector', '.winE-policy-close-b')
+[31m[1mERROR   [0m log:base_page.py:23 element ('css selector', '.winE-policy-close-b') not found, retrying 1 time(s)
+[32mINFO    [0m log:base_page.py:19 finding element: ('css selector', '.winE-policy-close-b')
+[31m[1mERROR   [0m log:base_page.py:23 element ('css selector', '.winE-policy-close-b') not found, retrying 2 time(s)
+[32mINFO    [0m log:base_page.py:59 element ('css selector', '.winE-policy-close-b') does not exist, TimeoutException
+[32mINFO    [0m log:conftest.py:25 the agree button does not shown, skip
+[32mINFO    [0m log:base_page.py:68 move the mouse to element ('css selector', '.header-b-r-item2-img')
+[32mINFO    [0m log:base_page.py:19 finding element: ('css selector', '.header-b-r-item2-img')
+[32mINFO    [0m log:base_page.py:50 Check element ('css selector', '.winD-history-box') exist
+[32mINFO    [0m log:base_page.py:19 finding element: ('css selector', '.winD-history-box')
+[32mINFO    [0m log:base_page.py:53 element ('css selector', '.winD-history-box') exist
+[32mINFO    [0m log:assert_util.py:14 start assertion, expect: True, compare method: ==, actual:True
+[32mINFO    [0m log:base_page.py:19 finding element: ('css selector', '.winD-history-box-head')
+[32mINFO    [0m log:base_page.py:91 get text from text: 
+[32mINFO    [0m log:assert_util.py:14 start assertion, expect: 观看历史, compare method: ==, actual:
+[31m[1mERROR   [0m log:assert_util.py:36 assertion fail by reason:
+[32mINFO    [0m log:base_page.py:75 switch to the home window and close extra windows
