@@ -1,14 +1,18 @@
 import os
-class GetFilePage:
-    # this is project path
-    project_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    #get log path
-    get_log_path = os.path.join(project_path, "logs")
+# this is project path
+project_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    #get csv path
-    get_csv_path = os.path.join(project_path, r"data\testdata.csv")
+#get log path
+get_log_path = os.path.join(project_path, "logs")
 
-# if __name__ == '__main__':
-#     print(GetFilePage.get_log_path)
-#     print(GetFilePage.get_csv_path)
+#get test data csv path
+get_test_data_csv_path = os.path.join(project_path, r"data\test_data_login.csv")
+
+#get test data yaml path
+get_test_data_yaml_path = os.path.join(project_path, r"data\test_data.yaml")
+
+#get test data path
+get_test_picture_path = os.path.join(project_path, r"data\test_picture.png")
+get_test_picture2_path = os.path.join(project_path, r"data\test_picture2.png")
+

@@ -1,0 +1,16 @@
+login_info:
+  - username: standard_user
+    password: secret_sauce
+  - username: wrong
+    password: secret_sauce
+  - username: standard_user
+    password: wrong
+  - username: ""
+    password: secret_sauce
+  - username: standard_user
+    password: ""
+
+search_data:
+  - CCTV
+  - NBA
+  - ABC

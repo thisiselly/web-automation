@@ -3,7 +3,7 @@ import time
 import allure
 import pytest
 
-from pages.page_playback import PlayPage
+from pages.page_yangshipin.page_playback import PlayPage
 
 @allure.epic("Playback Test")
 @allure.feature("playback test cases")
@@ -18,7 +18,6 @@ class TestPlayback:
 
         with allure.step("verify the video is playing success"):
             play_page.verify_video_is_playing()
-
 
     @pytest.mark.playback
     def test_paused_success(self, open_browser):
@@ -37,7 +36,6 @@ class TestPlayback:
 
         with allure.step("verify the video continue playback"):
             play_page.verify_video_is_playing()
-
 
     @pytest.mark.playback
     def test_click_full_screen_button(self, open_browser):

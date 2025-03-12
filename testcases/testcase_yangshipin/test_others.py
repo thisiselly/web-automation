@@ -5,7 +5,7 @@ import pytest
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 
-from pages.page_home import HomePage
+from pages.page_yangshipin.page_home import HomePage
 
 
 @allure.epic("Others")
@@ -20,12 +20,14 @@ class TestOthers:
     @allure.description("this is description for the case")
     @allure.link("http://www.bilibili.com", "link")
     @allure.severity("blocker")
+    @pytest.mark.run(order=1)
     def test_scroll_down_page(self, open_browser):
         HomePage(open_browser)
         time.sleep(5)
         open_browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(5)
 
+    @pytest.mark.run(order=2)
     def test_scroll_to_element(self, open_browser):
         HomePage(open_browser)
         element = open_browser.find_element(By.XPATH, '//*[text()="电影放映厅"]')
@@ -40,7 +42,7 @@ class TestOthers:
         time.sleep(3)
 
     @pytest.mark.skip(1>2, reason="skip with condition")
-    def test_refresh_By_F5(self, open_browser):
+    def test_refresh_by_f5(self, open_browser):
         HomePage(open_browser)
         time.sleep(3)
         actions = ActionChains(open_browser)

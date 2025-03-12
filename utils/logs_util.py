@@ -2,10 +2,9 @@ import logging
 import os
 import time
 
-from utils.get_file_path import GetFilePage
+from utils.get_file_path import *
 
-file_path = GetFilePage()
-log_path = file_path.get_log_path
+log_path = get_log_path
 
 if not os.path.exists(log_path):
     os.mkdir(log_path)
@@ -42,8 +41,3 @@ class Logger:
 
 logger = Logger().logger
 
-if __name__ == '__main__':
-    logger.debug("我打印DEBUG日志")
-    logger.info("我打印INFO日志")
-    logger.warning("我打印WARNING日志")
-    logger.error("我打印ERROR日志")

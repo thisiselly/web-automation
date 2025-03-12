@@ -26,7 +26,7 @@ class BasePage:
                 logger.error(f"element {locator} not found, retrying {attempts} time(s)")
                 attempts += 1
 
-        raise TimeoutException(f"element {locator} not found after {retry} attempts.")
+        raise TimeoutException(f"element {locator} not found after {retry} attempt(s).")
 
     def find_elements(self, locator, retry=3, timeout=10):
         attempt = 0
@@ -38,7 +38,7 @@ class BasePage:
             except (TimeoutException, NoSuchElementException) as e:
                 logger.error(f"elements {locator} not found with in {timeout} seconds with error: {e}")
 
-        raise TimeoutException(f"elements {locator} not found after {retry} attempts.")
+        raise TimeoutException(f"elements {locator} not found after {retry} attempt(s).")
 
 
     def clear(self, locator):
@@ -50,8 +50,8 @@ class BasePage:
         ele.send_keys(content)
 
     def element_exist(self, locator, retry=3, timeout=10):
-        logger.info(f"Check element {locator} exist")
         try:
+            logger.info(f"Checking element {locator} exist or not")
             self.find_element(locator, retry=retry, timeout=timeout)
             logger.info(f"element {locator} exist")
             return True #element found
