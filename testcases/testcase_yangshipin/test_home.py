@@ -8,7 +8,7 @@ from utils.read_files import read_ini
 @allure.epic("HomePage")
 @allure.feature("home page cases")
 class TestHomePage:
-    url = read_ini()['hosts']['yangshipin_host_url']
+    url = read_ini()['hosts']['host_url']
 
     @pytest.mark.home
     def test_select_vip_button(self, open_browser):
