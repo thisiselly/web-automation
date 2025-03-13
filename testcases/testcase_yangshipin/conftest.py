@@ -2,14 +2,15 @@ import allure
 import pytest
 from selenium.webdriver.common.by import By
 from base.base_page import BasePage
-from project_config import ProjectConfig
 from utils.logs_util import logger
+from utils.read_files import read_ini
 
 agree_button = (By.CSS_SELECTOR, '.winE-policy-close-b')
+url = read_ini()['hosts']['host_url']
 
 @pytest.fixture(scope="function")
 def open_browser(driver):
-    driver.get(ProjectConfig.home_url)
+    driver.get(url)
     select_agree_button(driver)
     yield driver
     back_to_home_page(driver)

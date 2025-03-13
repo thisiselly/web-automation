@@ -1,12 +1,14 @@
 import allure
 import pytest
 from pages.page_yangshipin.page_home import HomePage
-from project_config import ProjectConfig
 from utils.assert_util import *
+from utils.read_files import read_ini
+
 
 @allure.epic("HomePage")
 @allure.feature("home page cases")
 class TestHomePage:
+    url = read_ini()['hosts']['yangshipin_host_url']
 
     @pytest.mark.home
     def test_select_vip_button(self, open_browser):
@@ -30,7 +32,7 @@ class TestHomePage:
         with allure.step("verify history page loaded success in new page"):
             home_page.switch_to_current_window()
             actual_url = open_browser.current_url
-            assert_equal(ProjectConfig.history_url, actual_url, "the history page is not loaded as expect")
+            assert_equal(self.url + "/user/history", actual_url, "the history page is not loaded as expect")
 
     @pytest.mark.home
     def test_select_creator_button(self, open_browser):
@@ -42,7 +44,7 @@ class TestHomePage:
 
         with allure.step("verify it stays on the home page"):
             actual_url = open_browser.current_url
-            assert_equal(ProjectConfig.home_url, actual_url, "page does not stay on home page after click creator button")
+            assert_equal(self.url + "/", actual_url, "page does not stay on home page after click creator button")
 
     @pytest.mark.home
     def test_select_scan_button(self, open_browser):
@@ -54,7 +56,7 @@ class TestHomePage:
 
         with allure.step("verify it stays on the home page"):
             actual_url = open_browser.current_url
-            assert_equal(ProjectConfig.home_url, actual_url, "page does not stay on home page after click scan button")
+            assert_equal(self.url + "/", actual_url, "page does not stay on home page after click scan button")
 
     @pytest.mark.home
     def test_select_profile_button(self, open_browser):
@@ -67,7 +69,7 @@ class TestHomePage:
         with allure.step("verify profile page loaded success"):
             home_page.switch_to_current_window()
             actual_url = open_browser.current_url
-            assert_equal(ProjectConfig.vip_url, actual_url, "the vip page is not loaded as expect")
+            assert_equal(self.url + "/user/vip", actual_url, "the vip page is not loaded as expect")
 
     @pytest.mark.home
     def test_move_to_vip_button(self, open_browser):
@@ -144,7 +146,7 @@ class TestHomePage:
             actual_text = home_page.get_text(home_page.win_profile)
             expect_text = "登录后\n可享受以下内容"
             assert_true(win_profile_shown, "the win profile window does not shown as expect.")
-            assert_equal(expect_text, actual_text,"the text does not shown as expect.")
+            assert_equal(expect_text, actual_text, "the text does not shown as expect.")
 
     @pytest.mark.home
     def test_vip_click_login(self, open_browser):
@@ -187,4 +189,3 @@ class TestHomePage:
 
         with allure.step("verify login page shown"):
             home_page.verify_login_page_shown()
-

@@ -1,9 +1,9 @@
+
 from selenium.common import NoSuchElementException, TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
-from project_config import ProjectConfig
+from base.enums import WaitCondition
 from utils.logs_util import logger
 
 
@@ -11,75 +11,141 @@ class BasePage:
 
     def __init__(self, driver):
         self.driver = driver
+        self.actions = ActionChains(self.driver)
 
-    def find_element(self, locator, clickable = False, retry=3, timeout=10):
+    def find_element(self, locator, wait_condition=WaitCondition.PRESENCE, retry=3, timeout=10):
+        """
+        find the element
+        :param locator: the locator
+        :param wait_condition: The wait condition to use (default is WaitCondition.PRESENCE)
+        :param retry: retry times
+        :param timeout: timeout seconds
+        :return: return the element
+        """
         attempts = 1
         while attempts <= retry:
             try:
                 logger.info(f"finding element: {locator}")
-                if not clickable:
-                    ele = WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator))
+                if wait_condition == WaitCondition.PRESENCE:
+                    condition = EC.presence_of_element_located(locator)
+                elif wait_condition == WaitCondition.CLICKABLE:
+                    condition = EC.element_to_be_clickable(locator)
+                elif wait_condition == WaitCondition.VISIBLE:
+                    condition = EC.visibility_of_element_located(locator)
+                elif wait_condition == WaitCondition.SELECTED:
+                    condition = EC.element_to_be_selected(locator)
+                elif wait_condition == WaitCondition.INVISIBLE:
+                    condition = EC.invisibility_of_element_located(locator)
                 else:
-                    ele = WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
+                    raise ValueError(f"Unsupported wait condition: {wait_condition}")
+
+                ele = WebDriverWait(self.driver, timeout).until(condition)
+                logger.info(f"element {locator} found")
                 return ele
+
             except (TimeoutException, NoSuchElementException) as e:
-                logger.error(f"element {locator} not found, retrying {attempts} time(s)")
+                logger.error(f"element {locator} not found, retrying {attempts} time(s), exception msg: {str(e)}")
                 attempts += 1
 
         raise TimeoutException(f"element {locator} not found after {retry} attempt(s).")
 
-    def find_elements(self, locator, retry=3, timeout=10):
-        attempt = 0
-        while attempt < retry:
+    def find_elements(self, locator, wait_condition=WaitCondition.PRESENCE_ALL, retry=3, timeout=10):
+        """
+        find the elements
+        :param locator: the locator
+        :param wait_condition: The wait condition to use (default is WaitCondition.ALL_ELEMENTS_PRESENCE)
+        :param retry: retry times
+        :param timeout: timeout seconds
+        :return: returns the list of elements
+        """
+        attempts = 1
+        while attempts <= retry:
             try:
                 logger.info(f"finding elements: {locator}")
-                all_ele = WebDriverWait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator))
+                if wait_condition == WaitCondition.PRESENCE_ALL:
+                    condition = EC.presence_of_all_elements_located(locator)
+                elif wait_condition == WaitCondition.VISIBLE_ALL:
+                    condition = EC.visibility_of_all_elements_located(locator)
+                else:
+                    raise ValueError(f"Unsupported wait condition: {wait_condition}")
+
+                all_ele = WebDriverWait(self.driver, timeout).until(condition)
+                logger.info(f"elements {locator} found")
                 return all_ele
             except (TimeoutException, NoSuchElementException) as e:
-                logger.error(f"elements {locator} not found with in {timeout} seconds with error: {e}")
+                logger.error(f"elements {locator} not found, retrying {attempts} time(s), exception: {str(e)}")
+                attempts += 1
 
         raise TimeoutException(f"elements {locator} not found after {retry} attempt(s).")
 
-
     def clear(self, locator):
+        """
+        clear the input window
+        :param locator: the locator
+        :return: None
+        """
         ele = self.find_element(locator)
         ele.clear()
 
     def send_keys(self, locator, content):
+        """
+        send keys in the input window
+        :param locator: the locator
+        :param content: the input content
+        :return: None
+        """
         ele = self.find_element(locator)
         ele.send_keys(content)
 
     def element_exist(self, locator, retry=3, timeout=10):
+        """
+        check the element exist or not
+        :param locator: the locator
+        :param retry: retry times
+        :param timeout: timeout seconds
+        :return: boolean value
+        """
         try:
-            logger.info(f"Checking element {locator} exist or not")
+            logger.info(f"checking element {locator} exist or not")
             self.find_element(locator, retry=retry, timeout=timeout)
             logger.info(f"element {locator} exist")
-            return True #element found
-        except NoSuchElementException:
-            logger.info(f"element {locator} does not exist, NoSuchElementException")
-            return False  #element not found
-        except TimeoutException:
-            logger.info(f"element {locator} does not exist, TimeoutException")
-            return False
+            return True  # element found
+        except (NoSuchElementException, TimeoutException):
+            logger.info(f"element {locator} not found")
+            return False  # element not found
 
     def click(self, locator):
+        """
+        click on the specific locator
+        :param locator: the locator
+        :return: None
+        """
         logger.info(f"click element {locator}")
-        ele = self.find_element(locator, clickable=True)
+        ele = self.find_element(locator, wait_condition=WaitCondition.CLICKABLE)
         ele.click()
 
-    def move_to_mouse(self, locator):
+    def move_mouse_to_element(self, locator):
+        """
+        move the mouse to the element
+        :param locator: the locator
+        :return: None
+        """
         logger.info(f"move the mouse to element {locator}")
         ele = self.find_element(locator)
-        ActionChains(self.driver).move_to_element(ele).perform()
+        self.actions.move_to_element(ele).perform()
 
     def switch_to_window(self, to_home_window=False):
+        """
+        switch the driver to the specific window
+        :param to_home_window: set to True if move the driver to the home(first) window
+        :return: None
+        """
         all_windows = self.driver.window_handles
         if to_home_window:
             logger.info("switch to the home window and close extra windows")
-            for window in all_windows:
+            for window in all_windows[1:]:
                 self.driver.switch_to.window(window)
-                if window != all_windows[0]:
-                    self.driver.close()
+                self.driver.close()
             self.driver.switch_to.window(all_windows[0])
         else:
             logger.info("switch to the current open window")
@@ -87,8 +153,14 @@ class BasePage:
             for window in all_windows:
                 if window != current_window:
                     self.driver.switch_to.window(window)
+                    break
 
     def get_text(self, locator):
+        """
+        get the locator's text
+        :param locator: the locator
+        :return: the text value
+        """
         ele = self.find_element(locator)
         if ele.text is not None:
             logger.info(f"get text from text: {ele.text}")
@@ -101,6 +173,9 @@ class BasePage:
             return None
 
     def close(self):
+        """
+        close the window
+        :return: None
+        """
         logger.info("close the current window")
         self.driver.close()
-

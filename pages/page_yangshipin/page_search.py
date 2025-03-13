@@ -28,7 +28,7 @@ class SearchPage(BasePage):
     def switch_to_search_window(self):
         """
         switch the driver to the search window
-        :return:
+        :return: None
         """
         self.switch_to_window(to_home_window=False)
 
@@ -36,7 +36,7 @@ class SearchPage(BasePage):
         """
         input the search content
         :param content:
-        :return:
+        :return: None
         """
         logger.info(f"input search string: {content}")
         self.clear(self.search_text)
@@ -45,7 +45,7 @@ class SearchPage(BasePage):
     def click_search_button(self):
         """
         click the search button and switch the driver to the new window
-        :return:
+        :return: None
         """
         logger.info("select Search button")
         self.click(self.search_icon)
@@ -54,7 +54,7 @@ class SearchPage(BasePage):
     def wait_for_search_page_loaded(self):
         """
         wait for the search page load success
-        :return:
+        :return: None
         """
         self.find_element(self.search_result)
 
@@ -63,7 +63,7 @@ class SearchPage(BasePage):
         wait for the tab is selected
         :param locator: the locator of the tab
         :param retry: retry times
-        :return:
+        :return: None
         """
         attempt = 0
         while attempt < retry:
@@ -91,52 +91,48 @@ class SearchPage(BasePage):
         verify the button is selected or not
         :param locator: the locator
         :param expect_result: True or False
-        :return:
+        :return: None
         """
         actual_result = self.is_button_selected(locator)
         assert_equal(expect_result, actual_result, "button is not selected as expect.")
 
+    def select_tab(self, tab_locator):
+        logger.info(f"select the tab: {tab_locator}")
+        self.click(tab_locator)
+        self.wait_for_tab_selected(tab_locator)
+
     def select_comprehensive_tab(self):
         """
         select the comprehensive tab
-        :return:
+        :return: None
         """
-        logger.info("select the comprehensive tab")
-        self.click(self.comprehensive_button)
-        self.wait_for_tab_selected(self.comprehensive_button)
+        self.select_tab(self.comprehensive_button)
 
     def select_live_tab(self):
         """
         select the live tab
-        :return:
+        :return: None
         """
-        logger.info("select the live tab")
-        self.click(self.live_button)
-        self.wait_for_tab_selected(self.live_button)
+        self.select_tab(self.live_button)
 
     def select_album_tab(self):
         """
         select the album tab
-        :return:
+        :return: None
         """
-        logger.info("select the album tab")
-        self.wait_for_search_page_loaded()
-        self.click(self.album_button)
-        self.wait_for_tab_selected(self.album_button)
+        self.select_tab(self.album_button)
 
     def select_video_tab(self):
         """
         select the video tab
-        :return:
+        :return: None
         """
-        logger.info("select the video tab")
-        self.click(self.video_button)
-        self.wait_for_tab_selected(self.video_button)
+        self.select_tab(self.video_button)
 
     def verify_empty_search_result(self):
         """
         verify when no result, it shows correct text and icon
-        :return:
+        :return: None
         """
         no_search_text_displayed = self.element_exist(self.no_search_result_text)
         no_search_icon_displayed = self.element_exist(self.no_search_result_icon)
@@ -157,19 +153,19 @@ class SearchPage(BasePage):
     def verify_search_text_correct(self, context):
         """
         verify all displays titles contains correct context
-        :param context:
-        :return:
+        :param context: the search context
+        :return: None
         """
         actual_text = self.get_all_displayed_title()
         expect_text = context
-        result = all(expect_text in x for x in actual_text)
+        result = all(expect_text.lower() in x.lower() for x in actual_text)
         assert_true(result, f"not all displays title contains search string {context}, actual_text: {actual_text}")
 
 
     def select_first_video_in_search_result(self):
         """
         select the first video poster in search result
-        :return:
+        :return: None
         """
         self.click(self.search_poster)
         self.switch_to_search_window()
@@ -177,7 +173,7 @@ class SearchPage(BasePage):
     def verify_video_playback_success(self):
         """
         verify the video playback success
-        :return:
+        :return: None
         """
         play_page = PlayPage(self.driver)
         play_page.wait_for_playback_loaded()
@@ -186,13 +182,13 @@ class SearchPage(BasePage):
     def verify_icon_displays_for_live(self):
         """
         verify the live or order icon displays for all live programs
-        :return:
+        :return: None
         """
         icon_displayed = True
         all_corner_makers = self.find_elements(self.corner_makers)
         for corner_maker in all_corner_makers:
             child_class = corner_maker.find_element(By.XPATH, "./div").get_attribute("class")
-            if child_class != "live" or child_class != "order" or child_class != "reback":
+            if child_class != "live" and child_class != "order" and child_class != "reback":
                 icon_displayed = False
 
         assert_true(icon_displayed, f"live or order or reback icon not displayed for all live programs, actual:{all_corner_makers}")

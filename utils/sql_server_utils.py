@@ -39,7 +39,7 @@ class SqlServerDB:
         self.cursor.close()
         self.connection.close()
 
-if __name__ == '__main__':
-    sqldb = SqlServerDB()
-    sql = 'select * from hy_course'
-    print(sqldb.select_db_all(sql))
+# if __name__ == '__main__':
+#     sqldb = SqlServerDB()
+#     sql = 'select * from hy_course'
+#     print(sqldb.select_db_all(sql))

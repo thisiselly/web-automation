@@ -1,7 +1,7 @@
 import allure
 import pytest
 from pages.page_yangshipin.page_search import SearchPage
-from utils.get_test_data import read_yaml_file
+from utils.read_files import read_yaml_file
 
 
 @allure.epic("Search Test")

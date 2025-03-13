@@ -1,7 +1,7 @@
 import pytest
 
 from pages.page_saucedemo.page_saucedemo import PageSourceDemo
-from utils.get_test_data import *
+from utils.read_files import *
 
 
 class TestLoginByYaml:

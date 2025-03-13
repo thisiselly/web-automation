@@ -39,7 +39,7 @@ class PlayPage(BasePage):
         """
         wait until loading text dismissed
         :param timeout: timeout seconds
-        :return:
+        :return: None
         """
         start_time = time.time()
         while time.time() - start_time < timeout:
@@ -53,7 +53,7 @@ class PlayPage(BasePage):
     def select_pause_in_progress_bar(self):
         """
         select play button in the progress bar to pause the video
-        :return:None
+        :return: None
         """
         self.move_mouse_during_playback()
         self.click(self.play_button)
@@ -71,7 +71,7 @@ class PlayPage(BasePage):
         """
         make video to full screen mode
         :param click_full_screen_button: if True, will click the full screen button, if False, will double-click on the video
-        :return:
+        :return: None
         """
         if click_full_screen_button:
             logger.info("click the full screen video in the progress bar")
@@ -111,6 +111,10 @@ class PlayPage(BasePage):
         assert_equal(current_time, initial_time, "the video is not paused.")
 
     def verify_video_in_full_screen(self):
+        """
+        verify the video is playing in full screen
+        :return: None
+        """
         window_size = self.driver.get_window_size()
         screen_width = self.driver.execute_script("return screen.width;")
         screen_height = self.driver.execute_script("return screen.height;")

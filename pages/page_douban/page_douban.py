@@ -12,12 +12,15 @@ class PageDouBan(BasePage):
     days_on_chart = (By.CSS_SELECTOR, '.days')
 
     def get_music_datas(self):
+        """
+        get music datas from web
+        :return: the list of music data
+        """
         songs = self.find_elements(self.article)
         data_to_insert = []
         for song in songs:
             if len(data_to_insert) >= 10:  # 检查长度
                 break
-                
             song_info = song.text.split("\n")
             rank = int(song_info[0])
             song_name = song_info[1]
@@ -30,6 +33,10 @@ class PageDouBan(BasePage):
         return data_to_insert
 
     def insert_music_data(self):
+        """
+        insert the music data into DB
+        :return:
+        """
         sql_server = SqlServerDB()
         all_datas = self.get_music_datas()
         for data in all_datas:

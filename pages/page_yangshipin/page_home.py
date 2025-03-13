@@ -44,82 +44,82 @@ class HomePage(BasePage):
     def select_vip_button(self):
         """
         select the vip button in home page
-        :return:
+        :return: None
         """
         self.click(self.vip_button)
 
     def move_to_vip_button(self):
         """
         move the mouse to vip button in home page
-        :return:
+        :return: None
         """
-        self.move_to_mouse(self.vip_button)
+        self.move_mouse_to_element(self.vip_button)
 
     def select_view_history_button(self):
         """
         select the view history button in home page
-        :return:
+        :return: None
         """
         self.click(self.view_history_button)
 
     def move_to_view_history_button(self):
         """
         move the mouse to view history button in home page
-        :return:
+        :return: None
         """
-        self.move_to_mouse(self.view_history_button)
+        self.move_mouse_to_element(self.view_history_button)
 
     def select_creator_button(self):
         """
         select the creator button in home page
-        :return:
+        :return: None
         """
         self.click(self.creator_button)
 
     def move_to_creator_button(self):
         """
         move the mouse to creator button in home pgae
-        :return:
+        :return: None
         """
-        self.move_to_mouse(self.creator_button)
+        self.move_mouse_to_element(self.creator_button)
 
     def select_scan_button_button(self):
         """
         select the scan button in home page
-        :return:
+        :return: None
         """
         self.click(self.scan_button)
 
     def move_to_scan_button(self):
         """
         move to mouse to scan button in home page
-        :return:
+        :return: None
         """
-        self.move_to_mouse(self.scan_button)
+        self.move_mouse_to_element(self.scan_button)
 
     def select_profile_button(self):
         """
         select the profile button in home page
-        :return:
+        :return: None
         """
         self.click(self.profile_button)
 
     def move_to_profile_button(self):
         """
         move the mouse to profile button in home page
-        :return:
+        :return: None
         """
-        self.move_to_mouse(self.profile_button)
+        self.move_mouse_to_element(self.profile_button)
 
     def close_login_window(self):
         """
         close the login pop up window
-        :return:
+        :return: None
         """
         self.click(self.close_login_button)
 
     def verify_login_page_shown(self):
-        """
+        """ None
         verify the login page displays
         :return:
         """
@@ -129,7 +129,7 @@ class HomePage(BasePage):
     def click_signin_agree_button(self):
         """
         click the signin agree button in login window
-        :return:
+        :return: None
         """
         time.sleep(1)
         self.click(self.signin_agree_radio_button)
@@ -137,14 +137,14 @@ class HomePage(BasePage):
     def click_wechat_button(self):
         """
         click the wechat button in login window
-        :return:
+        :return: None
         """
         self.click(self.wechat_button)
 
     def verify_wechat_window_displays(self):
         """
         verify the wechat login window popup
-        :return:
+        :return: None
         """
         time.sleep(3)
         self.switch_to_current_window()
@@ -154,16 +154,13 @@ class HomePage(BasePage):
     def switch_to_home_window(self):
         """
         switch the driver to the home window
-        :return:
+        :return: None
         """
         self.switch_to_window(to_home_window=True)
 
     def switch_to_current_window(self):
         """
         switch the driver to the current opening window
-        :return:
+        :return: None
         """
         self.switch_to_window(to_home_window=False)
-
-
-
