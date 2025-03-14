@@ -37,12 +37,3 @@ def back_to_home_page(driver):
     """
     base_page = BasePage(driver)
     base_page.switch_to_window(to_home_window=True)
-
-@pytest.hookimpl(hookwrapper=True, tryfirst=True)
-def pytest_runtest_makereport(item, call):
-    out = yield
-    report = out.get_result()
-
-    if report.when == 'call' and report.failed:
-        driver = item.funcargs['driver']  # 从 item.funcargs 获取 driver
-        allure.attach(driver.get_screenshot_as_png(), "fail screenshot", allure.attachment_type.PNG)

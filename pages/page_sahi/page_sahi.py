@@ -264,12 +264,12 @@ class SahiHomePage(BasePage):
         assert_true(actual_result == 4, "validation fail.")
 
     def upload_file_by_send_keys(self):
-        file_path = get_test_picture_path
+        file_path = get_test_data_yaml_path
         self.send_keys(self.choose_file, file_path)
 
     def upload_file_by_keyboard(self):
         self.click(self.choose_file)
-        file_path = get_test_picture2_path
+        file_path = get_test_data_csv_path
         keyboard.send_keys({file_path})
         keyboard.send_keys('{ENTER}')
 

@@ -15,10 +15,10 @@ class TestOthers:
 
     @allure.story("this is allure story")
     @allure.title("this is test title")
-    @allure.testcase("http://www.baidu.com", "link for the case")
-    @allure.issue("http://www.baidu.com", "link for the bug")
+    @allure.testcase("https://www.baidu.com", "link for the case")
+    @allure.issue("https://www.baidu.com", "link for the bug")
     @allure.description("this is description for the case")
-    @allure.link("http://www.bilibili.com", "link")
+    @allure.link("https://www.bilibili.com", "link")
     @allure.severity("blocker")
     @pytest.mark.run(order=1)
     def test_scroll_down_page(self, open_browser):

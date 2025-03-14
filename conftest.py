@@ -1,3 +1,4 @@
+import allure
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
@@ -27,3 +28,13 @@ def driver():
     # driver.implicitly_wait(3)
     yield driver
     driver.quit()
+
+
+@pytest.hookimpl(hookwrapper=True, tryfirst=True)
+def pytest_runtest_makereport(item, call):
+    out = yield
+    report = out.get_result()
+
+    if report.when == 'call' and report.failed:
+        driver = item.funcargs['driver']
+        allure.attach(driver.get_screenshot_as_png(), "fail screenshot", allure.attachment_type.PNG)

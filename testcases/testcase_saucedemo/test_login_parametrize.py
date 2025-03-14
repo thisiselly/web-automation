@@ -5,12 +5,6 @@ from utils.read_files import *
 
 
 class TestLoginByYaml:
-    def test_aa(self):
-        aa = read_csv_credentials()
-        print(aa)
-        print(aa)
-        print(aa)
-        print(aa)
 
     @pytest.mark.parametrize("username,password", read_csv_credentials())
     def test_login_by_read_csv(self, open_saucedemo, username, password):
