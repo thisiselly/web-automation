@@ -1,7 +1,7 @@
 import allure
 import pytest
 from pages.page_yangshipin.page_search import SearchPage
-from utils.read_files import read_yaml_file
+from utils.get_file_data import get_yaml_testdata
 
 
 @allure.epic("Search Test")
@@ -66,7 +66,7 @@ class TestSearch:
             search_page.select_video_tab()
             search_page.verify_empty_search_result()
 
-    @pytest.mark.parametrize("search_string", read_yaml_file()["search_data"])
+    @pytest.mark.parametrize("search_string", get_yaml_testdata()["search_data"])
     @pytest.mark.search
     def test_search_program(self, open_browser, search_string):
         with allure.step("go to home page"):

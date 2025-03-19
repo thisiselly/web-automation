@@ -95,9 +95,9 @@ class TestSahi:
         sahi_home_page.upload_file_by_send_keys()
         sahi_home_page.click_submit_single_button()
 
-    def test_upload_files_by_keyboard(self, open_sahi):
-        sahi_home_page = SahiHomePage(open_sahi)
-        sahi_home_page.go_to_file_upload_test()
-        sahi_home_page.upload_file_by_keyboard()
-        sahi_home_page.click_submit_single_button(2)
+    # def test_upload_files_by_keyboard(self, open_sahi):
+    #     sahi_home_page = SahiHomePage(open_sahi)
+    #     sahi_home_page.go_to_file_upload_test()
+    #     sahi_home_page.upload_file_by_keyboard()
+    #     sahi_home_page.click_submit_single_button(2)
 

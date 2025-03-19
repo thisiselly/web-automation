@@ -2,13 +2,13 @@ import allure
 import pytest
 from pages.page_yangshipin.page_home import HomePage
 from utils.assert_util import *
-from utils.read_files import read_ini
+from utils.get_file_data import get_settings
 
 
 @allure.epic("HomePage")
 @allure.feature("home page cases")
 class TestHomePage:
-    url = read_ini()['hosts']['host_url']
+    url = get_settings()['hosts']['host_url']
 
     @pytest.mark.home
     def test_select_vip_button(self, open_browser):

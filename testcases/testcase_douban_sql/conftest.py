@@ -1,8 +1,9 @@
 import pytest
 
-from utils.read_files import read_ini
+from utils.get_file_data import get_settings
 
-url = str(read_ini()['hosts']['douban_host_url']) + "/chart"
+url = str(get_settings()['hosts']['douban_host_url']) + "/chart"
+
 
 @pytest.fixture(scope="function")
 def open_douban(driver):

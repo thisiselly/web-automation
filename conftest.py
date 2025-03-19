@@ -3,10 +3,10 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from utils.read_files import read_ini
+from utils.get_file_data import get_settings
 
-browser_config = read_ini()["browser"]
-browser_name = browser_config["name"].lower()
+browser_config = get_settings()["browser"]
+browser_name = get_settings()["browser"]["name"].lower()
 headless = browser_config.getboolean("headless")
 
 @pytest.fixture(scope="session")
