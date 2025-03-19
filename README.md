@@ -2,7 +2,7 @@ This is a personal practice project focused on web automation using Python, Sele
 
 Key features include:
 
-* Automation of web testing for websites, including CCTV Video (央视频).
+* Automation of web testing for websites, including CCTV Video (央视频), and some other websites.
 * Implementation of the Page Object Model for improved code maintainability.
 * Parameterization of tests with test data sourced from CSV and YAML files.
 * Use of pytest fixtures (conftest) for setup and teardown.
