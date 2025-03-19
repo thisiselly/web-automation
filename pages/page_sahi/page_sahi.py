@@ -1,5 +1,5 @@
 import time
-# from pywinauto import keyboard
+from pywinauto import keyboard
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
@@ -267,11 +267,11 @@ class SahiHomePage(BasePage):
         file_path = get_test_data_yaml_path
         self.send_keys(self.choose_file, file_path)
 
-    # def upload_file_by_keyboard(self):
-    #     self.click(self.choose_file)
-    #     file_path = get_test_data_credential_path
-    #     keyboard.send_keys({file_path})
-    #     keyboard.send_keys('{ENTER}')
+    def upload_file_by_keyboard(self):
+        self.click(self.choose_file)
+        file_path = get_test_data_credential_path
+        keyboard.send_keys({file_path})
+        keyboard.send_keys('{ENTER}')
 
     def click_submit_single_button(self, index=0):
         all_ele = self.find_element(self.submit_single_button)
