@@ -11,12 +11,12 @@ headless = browser_config.getboolean("headless")
 
 @pytest.fixture(scope="session")
 def driver():
-    if browser_name == "chrome":
+    if browser_name.lower() == "chrome":
         options = ChromeOptions()
         if headless:
             options.add_argument("--headless")
         driver = webdriver.Chrome(options=options)
-    elif browser_name == "firefox":
+    elif browser_name.lower() == "firefox":
         options = FirefoxOptions()
         if headless:
             options.add_argument("--headless")
